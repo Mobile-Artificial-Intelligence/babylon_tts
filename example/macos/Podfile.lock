@@ -14,7 +14,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
-  babylon_tts: 152cabef02d86484ba0f18f311f5552172ee73e8
+  babylon_tts: 2600ab3a495afd8bbc6070f6db5c734ecabd1656
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
