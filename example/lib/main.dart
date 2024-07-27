@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:babylon_tts/babylon_tts.dart' as babylon_tts;
+import 'package:babylon_tts/babylon_tts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,14 +19,8 @@ class _MyAppState extends State<MyApp> {
   late Future<int> sumAsyncResult;
 
   @override
-  void initState() {
-    super.initState();
-    sumResult = babylon_tts.sum(1, 2);
-    sumAsyncResult = babylon_tts.sumAsync(3, 4);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    babylon();
     const textStyle = TextStyle(fontSize: 25);
     const spacerSmall = SizedBox(height: 10);
     return MaterialApp(

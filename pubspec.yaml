@@ -19,6 +19,17 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.0
 
+ffigen:
+  name: 'babylon'
+  description: 'babylon.cpp binding'
+  output: 'lib/src/bindings.dart'
+  ignore-source-errors: true
+  headers:
+    entry-points:
+      - 'src/babylon.cpp/include/babylon.h'
+  #compiler-opts:
+    #- '-I/usr/lib/clang/17/include'
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

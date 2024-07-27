@@ -1,0 +1,22 @@
+PODS:
+  - babylon_tts (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+
+DEPENDENCIES:
+  - babylon_tts (from `Flutter/ephemeral/.symlinks/plugins/babylon_tts/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+
+EXTERNAL SOURCES:
+  babylon_tts:
+    :path: Flutter/ephemeral/.symlinks/plugins/babylon_tts/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+
+SPEC CHECKSUMS:
+  babylon_tts: 152cabef02d86484ba0f18f311f5552172ee73e8
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+
+PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
+
+COCOAPODS: 1.15.2
