@@ -33,18 +33,14 @@ class Babylon {
     return _lib!;
   }
 
-  static Future<File> tts(String text) async {
-    if (_dpModel == null) {
-      final dpModel = await rootBundle.load('packages/babylon_tts/src/babylon.cpp/models/deep_phonemizer.onnx');
-      _dpModel = File('${(await Directory.systemTemp.createTemp()).path}/deep_phonemizer.onnx');
-      await _dpModel!.writeAsBytes(Uint8List.view(dpModel.buffer));
-    }
+  static Future<void> init() async {
+    final dpModel = await rootBundle.load('packages/babylon_tts/src/babylon.cpp/models/deep_phonemizer.onnx');
+    _dpModel = File('${(await Directory.systemTemp.createTemp()).path}/deep_phonemizer.onnx');
+    await _dpModel!.writeAsBytes(Uint8List.view(dpModel.buffer));
 
-    if (_vitsModel == null) {
-      final vitsModel = await rootBundle.load('packages/babylon_tts/src/babylon.cpp/models/curie.onnx');
-      _vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/curie.onnx');
-      await _vitsModel!.writeAsBytes(Uint8List.view(vitsModel.buffer));
-    }
+    final vitsModel = await rootBundle.load('packages/babylon_tts/src/babylon.cpp/models/curie.onnx');
+    _vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/curie.onnx');
+    await _vitsModel!.writeAsBytes(Uint8List.view(vitsModel.buffer));
 
     final dpModelPath = _dpModel!.path.toNativeUtf8().cast<Char>();
     final language = "en_us".toNativeUtf8().cast<Char>();
@@ -61,6 +57,12 @@ class Babylon {
     if (result2 != 0) {
       throw Exception('Failed to initialize tts');
     }
+  }
+
+  static Future<File> tts(String text) async {
+    if (_dpModel == null || _vitsModel == null) {
+      await init();
+    }
 
     final textPtr = text.toNativeUtf8().cast<Char>();
 
@@ -72,10 +74,11 @@ class Babylon {
 
     lib.babylon_tts(textPtr, outputFilePath);
 
-    lib.babylon_tts_free();
-
-    lib.babylon_g2p_free();
-
     return outputFile;
+  }
+
+  static dispose() {
+    lib.babylon_g2p_free();
+    lib.babylon_tts_free();
   }
 }
