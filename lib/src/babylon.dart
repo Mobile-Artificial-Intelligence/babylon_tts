@@ -2,6 +2,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show Uint8List, rootBundle;
 import 'package:ffi/ffi.dart';
@@ -59,7 +60,7 @@ class Babylon {
     }
   }
 
-  static Future<File> tts(String text) async {
+  static Future<void> tts(String text) async {
     if (_dpModel == null || _vitsModel == null) {
       await init();
     }
@@ -74,7 +75,13 @@ class Babylon {
 
     lib.babylon_tts(textPtr, outputFilePath);
 
-    return outputFile;
+    final source = DeviceFileSource(outputFile.path);
+
+    final audioPlayer = AudioPlayer();
+
+    await audioPlayer.play(source);
+
+    await audioPlayer.onPlayerComplete.first;
   }
 
   static dispose() {
