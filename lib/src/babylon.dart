@@ -84,6 +84,33 @@ class Babylon {
     await audioPlayer.onPlayerComplete.first;
   }
 
+  static Future<void> streamTTS(Stream<String> stream) async {
+    if (_dpModel == null || _vitsModel == null) {
+      await init();
+    }
+
+    String buffer = '';
+
+    await for (final text in stream) {
+      buffer += text;
+
+      if (text.contains(RegExp(r'[.!?]'))) {
+        String input = buffer;
+
+        final lastSentenceEnd = input.lastIndexOf(RegExp(r'[.!?]'));
+
+        input = input.substring(0, lastSentenceEnd + 1);
+        buffer = buffer.substring(input.length);
+
+        await tts(input);
+      }
+    }
+
+    if (buffer.isNotEmpty) {
+      await tts(buffer);
+    }
+  }
+
   static dispose() {
     lib.babylon_g2p_free();
     lib.babylon_tts_free();
