@@ -61,19 +61,7 @@ class Babylon {
   }
 
   static Future<void> tts(String text) async {
-    if (_dpModel == null || _vitsModel == null) {
-      await init();
-    }
-
-    final textPtr = text.toNativeUtf8().cast<Char>();
-
-    final textHash = sha256.convert(text.codeUnits).toString();
-
-    final outputFile = File('${(await Directory.systemTemp.createTemp()).path}/$textHash.wav');
-
-    final outputFilePath = outputFile.path.toNativeUtf8().cast<Char>();
-
-    lib.babylon_tts(textPtr, outputFilePath);
+    final outputFile = await textToSpeechFile(text);
 
     final source = DeviceFileSource(outputFile.path);
 
@@ -84,11 +72,7 @@ class Babylon {
     await audioPlayer.onPlayerComplete.first;
   }
 
-  static Future<void> streamTTS(Stream<String> stream) async {
-    if (_dpModel == null || _vitsModel == null) {
-      await init();
-    }
-
+  static Future<void> stringStreamToSpeech(Stream<String> stream) async {
     String buffer = '';
 
     await for (final text in stream) {
@@ -109,6 +93,24 @@ class Babylon {
     if (buffer.isNotEmpty) {
       await tts(buffer);
     }
+  }
+
+  static Future<File> textToSpeechFile(String text) async {
+    if (_dpModel == null || _vitsModel == null) {
+      await init();
+    }
+
+    final textPtr = text.toNativeUtf8().cast<Char>();
+
+    final textHash = sha256.convert(text.codeUnits).toString();
+
+    final outputFile = File('${(await Directory.systemTemp.createTemp()).path}/$textHash.wav');
+
+    final outputFilePath = outputFile.path.toNativeUtf8().cast<Char>();
+
+    lib.babylon_tts(textPtr, outputFilePath);
+
+    return outputFile;
   }
 
   static dispose() {

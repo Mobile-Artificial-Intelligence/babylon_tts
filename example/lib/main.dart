@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:babylon_tts/babylon_tts.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,7 +49,10 @@ class _TTSPageState extends State<TTSPage> {
         _isPlaying = false;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      if (context.mounted) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
     }
   }
 
