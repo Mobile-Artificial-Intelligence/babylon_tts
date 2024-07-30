@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Piper TTS Example'),
+          title: const Text('Babylon TTS'),
         ),
         body: const TTSPage(),
       ),
@@ -77,6 +77,8 @@ class _TTSPageState extends State<TTSPage> {
             decoration: const InputDecoration(
               hintText: 'Enter text to speak',
             ),
+            maxLines: 10,
+            keyboardType: TextInputType.multiline
           ),
           const SizedBox(height: 20),
           ElevatedButton(
