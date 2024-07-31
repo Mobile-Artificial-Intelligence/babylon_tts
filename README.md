@@ -4,6 +4,8 @@ A Flutter package for Babylon TTS
 
 ## !! IMPORTANT !!
 
+This package will not work from pub.dev due to package size limitations.
+
 For android this package requires specific versions of the Android NDK and CMake. 
 Older versions of the NDK and CMake should work but you'll have to 
 manually update this packages `android/build.gradle` as versions are hardcoded.
