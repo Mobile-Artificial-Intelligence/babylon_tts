@@ -1,7 +1,7 @@
 name: babylon_tts
 description: "A Flutter package for Babylon TTS"
 version: 0.0.1
-homepage:
+repository: "https://github.com/Mobile-Artificial-Intelligence/babylon_tts"
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
