@@ -10,8 +10,6 @@ import 'package:ffi/ffi.dart';
 import 'bindings.dart';
 
 class Babylon {
-  static File? _dpModel;
-  static File? _vitsModel;
   static babylon? _lib;
 
   /// Getter for the Llama library.
@@ -36,15 +34,15 @@ class Babylon {
   }
 
   static Future<void> init() async {
-    final dpModel = await rootBundle.load('packages/babylon_tts/models/deep_phonemizer.onnx');
-    _dpModel = File('${(await Directory.systemTemp.createTemp()).path}/deep_phonemizer.onnx');
-    await _dpModel!.writeAsBytes(Uint8List.view(dpModel.buffer));
+    final dpModelData = await rootBundle.load('packages/babylon_tts/models/deep_phonemizer.onnx');
+    final dpModel = File('${(await Directory.systemTemp.createTemp()).path}/deep_phonemizer.onnx');
+    await dpModel.writeAsBytes(Uint8List.view(dpModelData.buffer));
 
-    final vitsModel = await rootBundle.load('packages/babylon_tts/models/curie.onnx');
-    _vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/curie.onnx');
-    await _vitsModel!.writeAsBytes(Uint8List.view(vitsModel.buffer));
+    final vitsModelData = await rootBundle.load('packages/babylon_tts/models/curie.onnx');
+    final vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/curie.onnx');
+    await vitsModel.writeAsBytes(Uint8List.view(vitsModelData.buffer));
 
-    final dpModelPath = _dpModel!.path.toNativeUtf8().cast<Char>();
+    final dpModelPath = dpModel.path.toNativeUtf8().cast<Char>();
     final language = "en_us".toNativeUtf8().cast<Char>();
 
     final result = lib.babylon_g2p_init(dpModelPath, language, 1);
@@ -53,7 +51,7 @@ class Babylon {
       throw Exception('Failed to initialize g2p');
     }
 
-    final vitsModelPath = _vitsModel!.path.toNativeUtf8().cast<Char>();
+    final vitsModelPath = vitsModel.path.toNativeUtf8().cast<Char>();
     final result2 = lib.babylon_tts_init(vitsModelPath);
 
     if (result2 != 0) {
@@ -115,11 +113,6 @@ class Babylon {
 
   static void textToSpeechIsolate((String, String, SendPort) args) async {
     final (text, outputPath, sendPort) = args;
-
-    if (_dpModel == null || _vitsModel == null) {
-      await init();
-    }
-
     final textPtr = text.toNativeUtf8().cast<Char>();
     final outputFilePath = outputPath.toNativeUtf8().cast<Char>();
 
