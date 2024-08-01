@@ -1,6 +1,7 @@
-
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:crypto/crypto.dart';
@@ -96,21 +97,35 @@ class Babylon {
   }
 
   static Future<File> textToSpeechFile(String text) async {
+    final textHash = sha256.convert(text.codeUnits).toString();
+
+    final outputFile = File('${(await Directory.systemTemp.createTemp()).path}/$textHash.wav');
+
+    final receivePort = ReceivePort();
+    
+    Isolate.spawn(
+      textToSpeechIsolate,
+      (text, outputFile.path, receivePort.sendPort)
+    );
+
+    await receivePort.first; // Wait for the isolate to complete its task
+
+    return outputFile;
+  }
+
+  static void textToSpeechIsolate((String, String, SendPort) args) async {
+    final (text, outputPath, sendPort) = args;
+
     if (_dpModel == null || _vitsModel == null) {
       await init();
     }
 
     final textPtr = text.toNativeUtf8().cast<Char>();
-
-    final textHash = sha256.convert(text.codeUnits).toString();
-
-    final outputFile = File('${(await Directory.systemTemp.createTemp()).path}/$textHash.wav');
-
-    final outputFilePath = outputFile.path.toNativeUtf8().cast<Char>();
+    final outputFilePath = outputPath.toNativeUtf8().cast<Char>();
 
     lib.babylon_tts(textPtr, outputFilePath);
 
-    return outputFile;
+    sendPort.send(null); // Notify the main isolate that the task is complete
   }
 
   static dispose() {
