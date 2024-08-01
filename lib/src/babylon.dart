@@ -82,7 +82,10 @@ class Babylon {
 
         final lastSentenceEnd = input.lastIndexOf(RegExp(r'[.!?]'));
 
-        input = input.substring(0, lastSentenceEnd + 1);
+        if (input.length > lastSentenceEnd + 1) {
+          input = input.substring(0, lastSentenceEnd + 1);
+        }
+
         buffer = buffer.substring(input.length);
 
         await tts(input);
