@@ -18,6 +18,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_BINARY_DI
 set(babylon_tts_bundled_libraries
   # Defined in ../src/CMakeLists.txt.
   # This can be changed to accommodate different builds.
+  "${CMAKE_CURRENT_SOURCE_DIR}/babylon.dll"
   "${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime.dll"
   PARENT_SCOPE
 )
