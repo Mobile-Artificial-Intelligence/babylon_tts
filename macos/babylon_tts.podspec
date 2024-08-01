@@ -14,7 +14,7 @@ A new Flutter FFI plugin project.
   s.author           = { 'Mobile Artificial Intelligence' => 'dane_madsen@hotmail.com' }
 
   s.source           = { :path => '.' }
-  s.vendored_libraries = 'lib/libbabylon.dylib', 'lib/libonnxruntime.dylib', 'lib/libonnxruntime.1.18.1.dylib'
+  s.vendored_libraries = 'libbabylon.dylib', 'llibonnxruntime.dylib', 'libonnxruntime.1.18.1.dylib'
   s.dependency 'FlutterMacOS'
 
   s.platform = :osx, '10.11'
