@@ -28,7 +28,7 @@ ffigen:
   ignore-source-errors: true
   headers:
     entry-points:
-      - 'src/babylon.cpp/include/babylon.h'
+      - 'include/babylon.h'
   #compiler-opts:
     #- '-I/usr/lib/clang/17/include'
 
@@ -38,8 +38,8 @@ ffigen:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - src/babylon.cpp/models/curie.onnx
-    - src/babylon.cpp/models/deep_phonemizer.onnx
+    - models/curie.onnx
+    - models/deep_phonemizer.onnx
 
   plugin:
     platforms:

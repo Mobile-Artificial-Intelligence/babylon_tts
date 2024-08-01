@@ -35,11 +35,11 @@ class Babylon {
   }
 
   static Future<void> init() async {
-    final dpModel = await rootBundle.load('packages/babylon_tts/src/babylon.cpp/models/deep_phonemizer.onnx');
+    final dpModel = await rootBundle.load('packages/babylon_tts/models/deep_phonemizer.onnx');
     _dpModel = File('${(await Directory.systemTemp.createTemp()).path}/deep_phonemizer.onnx');
     await _dpModel!.writeAsBytes(Uint8List.view(dpModel.buffer));
 
-    final vitsModel = await rootBundle.load('packages/babylon_tts/src/babylon.cpp/models/curie.onnx');
+    final vitsModel = await rootBundle.load('packages/babylon_tts/models/curie.onnx');
     _vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/curie.onnx');
     await _vitsModel!.writeAsBytes(Uint8List.view(vitsModel.buffer));
 
