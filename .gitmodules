@@ -1,0 +1,3 @@
+[submodule "src/babylon_cpp"]
+	path = src/babylon_cpp
+	url = https://github.com/Mobile-Artificial-Intelligence/babylon.cpp.git
