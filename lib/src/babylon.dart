@@ -45,7 +45,7 @@ class Babylon {
     final dpModelPath = dpModel.path.toNativeUtf8().cast<Char>();
     final language = "en_us".toNativeUtf8().cast<Char>();
     
-    var options = calloc<babylon_g2p_options_t>();
+    final options = calloc<babylon_g2p_options_t>();
     options.ref.language = language;
     options.ref.use_dictionaries = 1;
     options.ref.use_punctuation = 1;
