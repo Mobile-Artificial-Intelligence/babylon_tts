@@ -38,8 +38,8 @@ class Babylon {
     final dpModel = File('${(await Directory.systemTemp.createTemp()).path}/deep_phonemizer.onnx');
     await dpModel.writeAsBytes(Uint8List.view(dpModelData.buffer));
 
-    final vitsModelData = await rootBundle.load('packages/babylon_tts/models/curie.onnx');
-    final vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/curie.onnx');
+    final vitsModelData = await rootBundle.load('packages/babylon_tts/models/amy.onnx');
+    final vitsModel = File('${(await Directory.systemTemp.createTemp()).path}/amy.onnx');
     await vitsModel.writeAsBytes(Uint8List.view(vitsModelData.buffer));
 
     final dpModelPath = dpModel.path.toNativeUtf8().cast<Char>();

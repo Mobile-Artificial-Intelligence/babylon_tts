@@ -38,7 +38,7 @@ ffigen:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - models/curie.onnx
+    - models/amy.onnx
     - models/deep_phonemizer.onnx
 
   plugin:
