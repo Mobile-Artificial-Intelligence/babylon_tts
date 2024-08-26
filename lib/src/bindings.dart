@@ -21,22 +21,20 @@ class babylon {
 
   int babylon_g2p_init(
     ffi.Pointer<ffi.Char> model_path,
-    ffi.Pointer<ffi.Char> language,
-    int use_punctuation,
+    babylon_g2p_options_t options,
   ) {
     return _babylon_g2p_init(
       model_path,
-      language,
-      use_punctuation,
+      options,
     );
   }
 
   late final _babylon_g2p_initPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>,
-              ffi.Int)>>('babylon_g2p_init');
-  late final _babylon_g2p_init = _babylon_g2p_initPtr.asFunction<
-      int Function(ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.Char>, int)>();
+          ffi.Int Function(ffi.Pointer<ffi.Char>,
+              babylon_g2p_options_t)>>('babylon_g2p_init');
+  late final _babylon_g2p_init = _babylon_g2p_initPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Char>, babylon_g2p_options_t)>();
 
   ffi.Pointer<ffi.Char> babylon_g2p(
     ffi.Pointer<ffi.Char> text,
@@ -52,6 +50,21 @@ class babylon {
               ffi.Pointer<ffi.Char>)>>('babylon_g2p');
   late final _babylon_g2p = _babylon_g2pPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ffi.Char>)>();
+
+  ffi.Pointer<ffi.Int> babylon_g2p_tokens(
+    ffi.Pointer<ffi.Char> text,
+  ) {
+    return _babylon_g2p_tokens(
+      text,
+    );
+  }
+
+  late final _babylon_g2p_tokensPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<ffi.Int> Function(
+              ffi.Pointer<ffi.Char>)>>('babylon_g2p_tokens');
+  late final _babylon_g2p_tokens = _babylon_g2p_tokensPtr
+      .asFunction<ffi.Pointer<ffi.Int> Function(ffi.Pointer<ffi.Char>)>();
 
   void babylon_g2p_free() {
     return _babylon_g2p_free();
@@ -101,4 +114,14 @@ class babylon {
       _lookup<ffi.NativeFunction<ffi.Void Function()>>('babylon_tts_free');
   late final _babylon_tts_free =
       _babylon_tts_freePtr.asFunction<void Function()>();
+}
+
+final class babylon_g2p_options_t extends ffi.Struct {
+  external ffi.Pointer<ffi.Char> language;
+
+  @ffi.UnsignedChar()
+  external int use_dictionaries;
+
+  @ffi.UnsignedChar()
+  external int use_punctuation;
 }
